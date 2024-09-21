@@ -23,9 +23,9 @@ const localizer = dateFnsLocalizer({
 const Calendar = () => {
   const { bookings } = useContext(BookingContext);
 
-  // Map bookings to events format required by react-big-calendar
+  // Map bookings to events
   const events = bookings.map((booking, index) => ({
-    title: `Room ${booking.roomNumber} Booking`,
+    title: `${booking.firstName} ${booking.lastName} - Room ${booking.roomNumber}`,
     start: new Date(booking.checkin),
     end: new Date(booking.checkout),
     allDay: true,
