@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { BookingContext } from './BookingContext';
+import { BookingContext } from '../BookingContext/BookingContext';
 
 const Homepage = () => {
   const [formData, setFormData] = useState({
