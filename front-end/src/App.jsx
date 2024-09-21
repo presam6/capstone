@@ -1,13 +1,13 @@
 import React from 'react';
-import { BookingProvider } from '../pages/BookingContext/BookingContext';
+import { BookingProvider } from '../pages/BookingContext/BookingContext'// Adjust path as necessary
 import Homepage from '../pages/HomePage/Homepage';
-import Calendar from '../pages/Calendar/Calendar';
+import CustomCalendar from '../components/CustomCalendar/CustomCalendar';
 
 const App = () => {
   return (
     <BookingProvider>
       <Homepage />
-      <Calendar />
+      <CustomCalendar />
     </BookingProvider>
   );
 };

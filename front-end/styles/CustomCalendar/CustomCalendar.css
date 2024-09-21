@@ -1,0 +1,29 @@
+.custom-calendar {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-calendar .calendar-controls {
+    margin-bottom: 10px; /* Add margin to create a gap */
+    gap: 10px;
+}
+
+.custom-calendar table {
+    width: 100%;
+}
+
+.custom-calendar th, .custom-calendar td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 8px;
+}
+
+.custom-calendar th {
+    background-color: #f4f4f4; /* Background color for headers */
+    color: black; /* Change text color to black */
+}
+
+.custom-calendar .booked {
+    background-color: #b81717; /* Background color for booked cells */
+    color: black; /* Change text color to black */
+}

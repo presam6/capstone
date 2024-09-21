@@ -21,7 +21,14 @@ const Homepage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setBookings([...bookings, formData]);
+    const newBooking = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      checkin: formData.checkin,
+      checkout: formData.checkout,
+      roomNumber: parseInt(formData.roomNumber, 10), // Ensure room number is an integer
+    };
+    setBookings([...bookings, newBooking]);
     setFormData({
       firstName: '',
       lastName: '',
@@ -29,6 +36,7 @@ const Homepage = () => {
       checkout: '',
       roomNumber: '',
     });
+    console.log([...bookings, newBooking]); // Check the updated bookings
   };
 
   return (
