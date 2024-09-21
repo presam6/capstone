@@ -8,13 +8,13 @@ const Homepage = () => {
   });
 
   const [bookings, setBookings] = useState(() => {
-    // Retrieve bookings from local storage, if they exist
+    // Retrieve bookings from local storage
     const savedBookings = localStorage.getItem('bookings');
     return savedBookings ? JSON.parse(savedBookings) : [];
   });
 
   useEffect(() => {
-    // Update local storage whenever bookings change
+    // Update local storage if naay bag-o nga bookings
     localStorage.setItem('bookings', JSON.stringify(bookings));
   }, [bookings]);
 
@@ -29,7 +29,7 @@ const Homepage = () => {
     e.preventDefault();
     // Add the current form data to the bookings array
     setBookings([...bookings, formData]);
-    // Optionally, clear the form after submission
+    // Clear the form after submission
     setFormData({
       checkin: '',
       checkout: '',
