@@ -16,7 +16,7 @@ const EventDetailsModal = ({ event, onClose }) => {
       padding: '20px', 
       boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' 
     }}>
-      <h3>Booking Details</h3>
+      <h3>Room Details</h3>
       <p><strong>Name:</strong> {event.firstName} {event.lastName}</p>
       <p><strong>Room Number:</strong> {event.roomNumber}</p>
       <p><strong>Check-in Date:</strong> {event.start.toLocaleDateString()}</p>

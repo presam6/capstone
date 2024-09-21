@@ -33,7 +33,7 @@ const Homepage = () => {
 
   return (
     <div>
-      <h2>Book Your Stay</h2>
+      <h2>Client Information</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name:</label>

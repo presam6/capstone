@@ -27,7 +27,7 @@ const Calendar = () => {
 
   // Map bookings to events format required by react-big-calendar
   const events = bookings.map((booking, index) => ({
-    title: `${booking.firstName} ${booking.lastName} - Room ${booking.roomNumber}`,
+    title: `${booking.lastName}, ${booking.firstName[0]}. - Room ${booking.roomNumber}`,
     start: new Date(booking.checkin),
     end: new Date(booking.checkout),
     allDay: true,
@@ -44,7 +44,7 @@ const Calendar = () => {
 
   return (
     <div>
-      <h2>Booking Calendar</h2>
+      <h2>Event Calendar</h2>
       <BigCalendar
         localizer={localizer}
         events={events}
