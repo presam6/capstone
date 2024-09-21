@@ -1,10 +1,15 @@
-import Homepage from '../pages/HomePage/Homepage'
-import './App.css'
+import React from 'react';
+import { BookingProvider } from '../pages/BookingContext/BookingContext';
+import Homepage from './Homepage';
+import Calendar from './Calendar';
 
-function App() {
+const App = () => {
   return (
-    <Homepage/>
-  )
-}
+    <BookingProvider>
+      <Homepage />
+      <Calendar />
+    </BookingProvider>
+  );
+};
 
-export default App
+export default App;
