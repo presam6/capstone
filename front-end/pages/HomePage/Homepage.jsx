@@ -1,27 +1,28 @@
 import React, { useState, useContext } from 'react';
 import { BookingContext } from '../BookingContext/BookingContext';
+import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
-  const [formData, setFormData] = useState({
+  const { setFormData } = useContext(BookingContext);
+  const navigate = useNavigate();
+
+  const [formDataLocal, setFormDataLocal] = useState({
     firstName: '',
     lastName: '',
     checkin: '',
     checkout: '',
-    roomNumber: '',
     numberOfPeople: 2, // Initial base number set to 2
   });
 
-  const { bookings, setBookings } = useContext(BookingContext);
-
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormDataLocal({
+      ...formDataLocal,
       [e.target.name]: e.target.value,
     });
   };
 
   const handlePeopleChange = (operation) => {
-    setFormData((prevData) => ({
+    setFormDataLocal((prevData) => ({
       ...prevData,
       numberOfPeople:
         operation === 'subtract' && prevData.numberOfPeople > 1
@@ -34,24 +35,8 @@ const Homepage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newBooking = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      checkin: formData.checkin,
-      checkout: formData.checkout,
-      roomNumber: parseInt(formData.roomNumber, 10), // Ensure room number is an integer
-      numberOfPeople: formData.numberOfPeople,
-    };
-    setBookings([...bookings, newBooking]);
-    setFormData({
-      firstName: '',
-      lastName: '',
-      checkin: '',
-      checkout: '',
-      roomNumber: '',
-      numberOfPeople: 2, // Reset to base number 2 after submission
-    });
-    console.log([...bookings, newBooking]); // Check the updated bookings
+    setFormData(formDataLocal); // Update formData in context
+    navigate('/calendar'); 
   };
 
   return (
@@ -64,7 +49,7 @@ const Homepage = () => {
             type="text"
             id="firstName"
             name="firstName"
-            value={formData.firstName}
+            value={formDataLocal.firstName}
             onChange={handleChange}
             required
           />
@@ -75,7 +60,7 @@ const Homepage = () => {
             type="text"
             id="lastName"
             name="lastName"
-            value={formData.lastName}
+            value={formDataLocal.lastName}
             onChange={handleChange}
             required
           />
@@ -86,7 +71,7 @@ const Homepage = () => {
             type="date"
             id="checkin"
             name="checkin"
-            value={formData.checkin}
+            value={formDataLocal.checkin}
             onChange={handleChange}
             required
           />
@@ -97,20 +82,9 @@ const Homepage = () => {
             type="date"
             id="checkout"
             name="checkout"
-            value={formData.checkout}
+            value={formDataLocal.checkout}
             onChange={handleChange}
             required
-          />
-        </div>
-        <div>
-          <label htmlFor="roomNumber">Room Number:</label>
-          <input
-            type="text"
-            id="roomNumber"
-            name="roomNumber"
-            value={formData.roomNumber}
-            onChange={handleChange}
-            // required
           />
         </div>
         <div>
@@ -123,7 +97,7 @@ const Homepage = () => {
             >
               -
             </button>
-            <span>{formData.numberOfPeople}</span>
+            <span>{formDataLocal.numberOfPeople}</span>
             <button
               type="button"
               onClick={() => handlePeopleChange('add')}
@@ -133,7 +107,7 @@ const Homepage = () => {
             </button>
           </div>
         </div>
-        <button type="submit">Book Now</button>
+        <button type="submit">Find Room</button>
       </form>
     </div>
   );
