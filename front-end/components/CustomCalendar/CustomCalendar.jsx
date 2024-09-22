@@ -70,7 +70,7 @@ const CustomCalendar = () => {
                     className={booking ? 'booked' : ''}
                     onClick={() => handleCellClick(room + 1, day + 1)} // Click handler
                   >
-                    {booking ? `${booking.lastName}, ${booking.firstName[0]}.` : ''}
+                    {booking ? `${booking.lastName}, ${booking.firstName[0]}. (${booking.numberOfPeople})` : ''}
                   </td>
                 );
               })}

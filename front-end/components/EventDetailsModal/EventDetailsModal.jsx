@@ -21,6 +21,7 @@ const EventDetailsModal = ({ event, onClose }) => {
       <p><strong>Room Number:</strong> {event.roomNumber}</p>
       <p><strong>Check-in Date:</strong> {event.start.toLocaleDateString()}</p>
       <p><strong>Check-out Date:</strong> {event.end.toLocaleDateString()}</p>
+      <p><strong>Number of People Staying:</strong> {event.numberOfPeople}</p>
       <button onClick={onClose}>Close</button>
     </div>
   );
