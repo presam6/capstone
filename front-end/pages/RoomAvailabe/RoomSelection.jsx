@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const RoomSelection = () => {
   const { formData, setFormData, bookings, setBookings } = useContext(BookingContext);
-  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [selectedRooms, setSelectedRooms] = useState([]);
+  const [roomLists, setRoomLists] = useState([0]); // To manage multiple room selection lists
   const navigate = useNavigate();
 
   const rooms = [
@@ -20,40 +21,31 @@ const RoomSelection = () => {
   ];
 
   const getAvailableRooms = () => {
-    const suitableRooms = rooms.filter(room => room.capacity >= formData.numberOfPeople);
-
-    return suitableRooms.filter(room => {
-      return !bookings.some(booking => {
-        const bookingCheckin = new Date(booking.checkin);
-        const bookingCheckout = new Date(booking.checkout);
-        return (
-          booking.roomNumber === room.roomNumber &&
-          ((new Date(formData.checkin) >= bookingCheckin && new Date(formData.checkin) <= bookingCheckout) ||
-           (new Date(formData.checkout) >= bookingCheckin && new Date(formData.checkout) <= bookingCheckout))
-        );
-      });
-    });
+    return rooms.filter(room => 
+      room.capacity >= formData.numberOfPeople
+    );
   };
 
-  const availableRooms = getAvailableRooms();
+  const handleRoomSelect = (roomNumber, listIndex) => {
+    const updatedSelectedRooms = [...selectedRooms];
+    updatedSelectedRooms[listIndex] = roomNumber;
+    setSelectedRooms(updatedSelectedRooms);
+  };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const addRoomList = () => {
+    setRoomLists([...roomLists, roomLists.length]);
   };
 
   const confirmBooking = () => {
-    if (selectedRoom) {
-      const newBooking = {
+    if (selectedRooms.length > 0) {
+      const newBookings = selectedRooms.map(roomNumber => ({
         ...formData,
-        roomNumber: selectedRoom,
-      };
-      setBookings([...bookings, newBooking]);
+        roomNumber: roomNumber,
+      }));
+      setBookings([...bookings, ...newBookings]);
       navigate('/calendar'); // Redirect to custom calendar page
     } else {
-      alert('Please select a room.');
+      alert('Please select at least one room.');
     }
   };
 
@@ -68,7 +60,7 @@ const RoomSelection = () => {
             id="firstName"
             name="firstName"
             value={formData.firstName}
-            onChange={handleChange}
+            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
             required
           />
         </div>
@@ -79,7 +71,7 @@ const RoomSelection = () => {
             id="lastName"
             name="lastName"
             value={formData.lastName}
-            onChange={handleChange}
+            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
             required
           />
         </div>
@@ -90,7 +82,7 @@ const RoomSelection = () => {
             id="checkin"
             name="checkin"
             value={formData.checkin}
-            onChange={handleChange}
+            onChange={(e) => setFormData({ ...formData, checkin: e.target.value })}
             required
           />
         </div>
@@ -101,7 +93,7 @@ const RoomSelection = () => {
             id="checkout"
             name="checkout"
             value={formData.checkout}
-            onChange={handleChange}
+            onChange={(e) => setFormData({ ...formData, checkout: e.target.value })}
             required
           />
         </div>
@@ -112,34 +104,47 @@ const RoomSelection = () => {
             id="numberOfPeople"
             name="numberOfPeople"
             value={formData.numberOfPeople}
-            onChange={handleChange}
+            onChange={(e) => setFormData({ ...formData, numberOfPeople: e.target.value })}
             required
             min={1}
           />
         </div>
       </form>
-      
-      <h2>Select a Room</h2>
-      {availableRooms.length > 0 ? (
-        <ul>
-          {availableRooms.map(room => (
-            <li key={room.roomNumber}>
-              <label>
-                <input
-                  type="radio"
-                  value={room.roomNumber}
-                  checked={selectedRoom === room.roomNumber}
-                  onChange={() => setSelectedRoom(room.roomNumber)}
-                />
-                Room {room.roomNumber} (Capacity: {room.capacity}, Price: ₱ {room.price})
-              </label>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No available rooms for the selected dates and number of people.</p>
-      )}
-      <button onClick={confirmBooking} disabled={!selectedRoom}>Allocate Room</button>
+
+      <h2>Select Rooms</h2>
+      {roomLists.map((listIndex) => {
+        const availableRooms = getAvailableRooms();
+        return (
+          <div key={listIndex}>
+            {availableRooms.length > 0 ? (
+              <ul>
+                {availableRooms.map(room => (
+                  <li key={room.roomNumber} style={{ listStyle: 'none' }}>
+                    <label style={{ display: 'inline-block', marginRight: '10px' }}>
+                      <input
+                        type="radio"
+                        value={room.roomNumber}
+                        checked={selectedRooms[listIndex] === room.roomNumber}
+                        onChange={() => handleRoomSelect(room.roomNumber, listIndex)}
+                        disabled={selectedRooms.includes(room.roomNumber)} // Disable already selected rooms
+                      />
+                      Room {room.roomNumber} (Capacity: {room.capacity}, Price: ₱ {room.price})
+                    </label>
+                    {selectedRooms.includes(room.roomNumber) && (
+                      <span style={{ color: 'green' }}> - Selected</span> // Indicate selected rooms
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No available rooms for the selected dates and number of people.</p>
+            )}
+          </div>
+        );
+      })}
+
+      <button type="button" onClick={addRoomList}>Add Another Room</button>
+      <button onClick={confirmBooking} disabled={selectedRooms.length === 0}>Confirm Booking</button>
     </div>
   );
 };
