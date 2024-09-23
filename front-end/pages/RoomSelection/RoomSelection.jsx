@@ -131,7 +131,7 @@ const RoomSelection = () => {
                   checked={selectedRoom === room.roomNumber}
                   onChange={() => setSelectedRoom(room.roomNumber)}
                 />
-                Room {room.roomNumber} (Capacity: {room.capacity}, Price: ${room.price})
+                Room {room.roomNumber} (Capacity: {room.capacity}, Price: ₱ {room.price})
               </label>
             </li>
           ))}
