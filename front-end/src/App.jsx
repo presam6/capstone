@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { BookingProvider } from '../pages/BookingContext/BookingContext';
 import Homepage from '../pages/HomePage/Homepage';
-import RoomSelection from '../pages/RoomSelection/RoomSelection';
+import RoomSelection from '../pages/RoomAvailabe/RoomSelection';
 import CustomCalendar from '../components/CustomCalendar/CustomCalendar';
 
 const App = () => {
