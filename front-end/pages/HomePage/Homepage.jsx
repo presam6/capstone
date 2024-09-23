@@ -3,26 +3,26 @@ import { BookingContext } from '../BookingContext/BookingContext';
 import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
-  const { setFormData } = useContext(BookingContext);
-  const navigate = useNavigate();
-
-  const [formDataLocal, setFormDataLocal] = useState({
+  const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     checkin: '',
     checkout: '',
-    numberOfPeople: 2, // Initial base number set to 2
+    numberOfPeople: 4, // Initial base number set to 4
   });
 
+  const { setFormData: setBookingFormData } = useContext(BookingContext);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
-    setFormDataLocal({
-      ...formDataLocal,
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
   const handlePeopleChange = (operation) => {
-    setFormDataLocal((prevData) => ({
+    setFormData((prevData) => ({
       ...prevData,
       numberOfPeople:
         operation === 'subtract' && prevData.numberOfPeople > 1
@@ -35,8 +35,8 @@ const Homepage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormData(formDataLocal); // Update formData in context
-    navigate('/calendar'); 
+    setBookingFormData(formData);
+    navigate('/select-room'); // Redirect to room selection page
   };
 
   return (
@@ -49,7 +49,7 @@ const Homepage = () => {
             type="text"
             id="firstName"
             name="firstName"
-            value={formDataLocal.firstName}
+            value={formData.firstName}
             onChange={handleChange}
             required
           />
@@ -60,7 +60,7 @@ const Homepage = () => {
             type="text"
             id="lastName"
             name="lastName"
-            value={formDataLocal.lastName}
+            value={formData.lastName}
             onChange={handleChange}
             required
           />
@@ -71,7 +71,7 @@ const Homepage = () => {
             type="date"
             id="checkin"
             name="checkin"
-            value={formDataLocal.checkin}
+            value={formData.checkin}
             onChange={handleChange}
             required
           />
@@ -82,7 +82,7 @@ const Homepage = () => {
             type="date"
             id="checkout"
             name="checkout"
-            value={formDataLocal.checkout}
+            value={formData.checkout}
             onChange={handleChange}
             required
           />
@@ -97,7 +97,7 @@ const Homepage = () => {
             >
               -
             </button>
-            <span>{formDataLocal.numberOfPeople}</span>
+            <span>{formData.numberOfPeople}</span>
             <button
               type="button"
               onClick={() => handlePeopleChange('add')}
@@ -107,7 +107,7 @@ const Homepage = () => {
             </button>
           </div>
         </div>
-        <button type="submit">Find Room</button>
+        <button type="submit">Next</button>
       </form>
     </div>
   );
