@@ -139,7 +139,7 @@ const RoomSelection = () => {
       ) : (
         <p>No available rooms for the selected dates and number of people.</p>
       )}
-      <button onClick={confirmBooking} disabled={!selectedRoom}>Book</button>
+      <button onClick={confirmBooking} disabled={!selectedRoom}>Allocate Room</button>
     </div>
   );
 };
